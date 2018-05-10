@@ -1,0 +1,30 @@
+version: '3'
+services:
+    php:
+        image: apachehttps2
+        container_name: PSC_apache_php7
+        restart: always
+        volumes:
+            - ./webserver:/var/www/html
+        ports:
+            - 443:443
+        environment:
+            - ALLOW_OVERRIDE=true
+    db:
+        image: mariadb
+        container_name: PSC_MariaDB_Mysql
+        restart: always
+        volumes: 
+            - ./DB/data/:/root
+            - ./DB/initdb/:/docker-entrypoint-initdb.d
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=p@ssw0rd
+            - MYSQL_DATABASE=myapp
+    pma:
+        image: phpmyadmin/phpmyadmin
+        container_name: PSC_phpmyadmin
+        restart: always
+        ports:
+            - 8888:80
